@@ -27,14 +27,14 @@ struct Car {
         case .closeWindows:
             windowsOpened = false
             
-        case .putIn(V: let volume):
+        case .putIn(v: let volume):
             if (filledBootVolume + volume) <= bootVolume {
                 filledBootVolume += volume
             } else {
                 print("Ошибка! Нельзя добавить больше груза в багажник")
             }
             
-        case .pickUp(V: let volume):
+        case .pickUp(v: let volume):
             if filledBootVolume == 0 {
                 print("Ошибка! В багажнике сейчас нет груза")
             } else if filledBootVolume < volume {
@@ -65,14 +65,14 @@ struct Truck {
         case .closeWindows:
             windowsOpened = false
             
-        case .putIn(V: let volume):
-            if volume <= bootVolume && (filledBootVolume + volume) <= bootVolume && filledBootVolume < bootVolume{
+        case .putIn(v: let volume):
+            if (filledBootVolume + volume) <= bootVolume {
                 filledBootVolume += volume
             } else {
                 print("Ошибка! Нельзя добавить больше груза в кузов")
             }
             
-        case .pickUp(V: let volume):
+        case .pickUp(v: let volume):
             if filledBootVolume == 0 {
                 print("Ошибка! В кузове сейчас нет груза")
             } else if filledBootVolume < volume {
@@ -89,21 +89,21 @@ enum Actions {
     case stopEngine
     case openWindows
     case closeWindows
-    case putIn (V: Float)
-    case pickUp (V: Float)
+    case putIn (v: Float)
+    case pickUp (v: Float)
 }
     
 var lada = Car(brand: "Lada", year: 2017, bootVolume: 220, filledBootVolume: 0, windowsOpened: false, engineWorks: true)
 var kamaz = Truck(brand: "KAMAZ-6520", year: 1996, bootVolume: 1000, filledBootVolume: 0, windowsOpened: false, engineWorks: false)
 
 lada.switchProps(action: .stopEngine)
-lada.switchProps(action: .putIn(V: 100))
-lada.switchProps(action: .pickUp(V: 77.5))
+lada.switchProps(action: .putIn(v: 100))
+lada.switchProps(action: .pickUp(v: 77.5))
 
 kamaz.switchProps(action: .startEngine)
 kamaz.switchProps(action: .openWindows)
-kamaz.switchProps(action: .putIn(V: 800))
-kamaz.switchProps(action: .pickUp(V: 200.5))
+kamaz.switchProps(action: .putIn(v: 800))
+kamaz.switchProps(action: .pickUp(v: 200.5))
 
 print(lada)
 print(kamaz)
