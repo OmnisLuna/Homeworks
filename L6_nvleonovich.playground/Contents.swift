@@ -1,29 +1,53 @@
-import UIKit
+import Foundation
 
 class Human {
-    var years: Int
+    var age: Int
 
-    init(years: Int) {
-        self.years = years
+    init(age: Int) {
+        self.age = age
     }
 }
 
 struct Queue<T> {
     private var elements: [T] = []
-    mutating func push(_ element: T) {
+    
+    mutating func push(_ element: T) { // enqueue
         elements.append(element)
     }
-    mutating func pop() -> T? {
-        return elements.removeFirst()
+    
+    mutating func pop() -> T? { // dequeue
+        if elements.isEmpty {
+            return nil
+        } else {
+            return elements.removeFirst()
+        }
+    }
+    
+    func filter<T>(queue: Queue<T>, predicate: (T) -> Bool) -> Queue<T> {
+        var queue = queue
+        var result = Queue<T>()
+        
+        while let next = queue.pop() {
+            if predicate(next) {
+                result.push(next)
+            }
+        }
+        return result
     }
 }
 
 var human = Queue<Human>()
-//human.sort()
-human.push(Human(years:22))
-human.push(Human(years:56))
-human.push(Human(years:15))
-human.push(Human(years:38))
-human.push(Human(years:62))
+
+human.push(Human(age:22))
+human.push(Human(age:56))
+human.push(Human(age:15))
+human.push(Human(age:38))
+human.push(Human(age:62))
+human.push(Human(age:28))
+human.push(Human(age:70))
 human.pop()
 human.pop()
+
+human.filter(queue: human, predicate: {human in return human.age <= 60})
+
+
