@@ -16,13 +16,13 @@ struct Beverage {
 
 class CoffeeMachine {
     
-    enum Exception: Error {
+    enum Exception: Error, LocalizedError {
         case invalidName
         case notEnoughWater
         case notEnoughMilk
         case notEnoughCoffee
         
-        var localizedDescription: String {
+        var errorDescription: String? {
             switch self {
             case .invalidName:
                 return "Вы ввели неправильное название продукта, попробуйте ввести ещё раз"
@@ -44,7 +44,7 @@ class CoffeeMachine {
     ]
     var coffee: Int = 250
     var milk: Int = 500
-    var water: Int = 250
+    var water: Int = 300
     
     func makeDrink(_ beverage: String) throws -> Beverage? {
         guard let item = beverages[beverage] else { throw Exception.invalidName }
@@ -61,25 +61,18 @@ class CoffeeMachine {
     }
 }
 
-var coffeeMachine = CoffeeMachine()
+let coffeeMachine = CoffeeMachine()
 
 func makeDerinkWithException(name: String){
-do {
-    let _ = try coffeeMachine.makeDrink(name)
-} catch CoffeeMachine.Exception.invalidName {
-    print(CoffeeMachine.Exception.invalidName.localizedDescription)
-} catch CoffeeMachine.Exception.notEnoughWater {
-    print(CoffeeMachine.Exception.notEnoughWater.localizedDescription)
-} catch CoffeeMachine.Exception.notEnoughMilk {
-    print(CoffeeMachine.Exception.notEnoughMilk.localizedDescription)
-} catch CoffeeMachine.Exception.notEnoughCoffee {
-    print(CoffeeMachine.Exception.notEnoughCoffee.localizedDescription)
-} catch let error {
-    print(error.localizedDescription)
-}
+    do {
+        let _ = try coffeeMachine.makeDrink(name)
+    } catch {
+        print(error.localizedDescription)
+    }
 }
 
 makeDerinkWithException(name: "Latte")
 makeDerinkWithException(name: "Cappucino")
 makeDerinkWithException(name: "Cappucino")
 makeDerinkWithException(name: "Escprsso")
+makeDerinkWithException(name: "Espresso")
